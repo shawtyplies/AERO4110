@@ -22,7 +22,8 @@ Loiter: 10 min
 # Aircraft parameters
 MTOW = 1840 # lb
 W = MTOW*4.44822 # N
-rho = 1.225*0.06243 # lb/ft^3 (sea level)
+# rho = 1.225/515.4 # slug/ft^3 (sea level)
+rho = 1.225/16.018 # lb/ft^3 (sea level)
 S = 150 # ft^2
 AR = 6
 delta = 0.058 # induced drag factor - check origin
@@ -30,7 +31,7 @@ e = 1/(1+delta) # efficiency factor of wing
 k = 1/(np.pi*AR*e) # drag coefficient
 # print(f"k = {k}")
 C_D_0 = 0.025 # drag coefficient at zero lift (Torenbeek - light aircraft approximation)
-V_v = 900*60 # climb rate in ft/s (minimum)
+V_v = 900/60 # climb rate in ft/s (minimum)
 eta = 0.8 # propeller efficiency
 
 V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*C_D_0))) # ft/s
@@ -38,4 +39,5 @@ print(f"V_mp = {V_mp} ft/s")
 print(f"V_mp = {V_mp*0.592484} knots")
 
 P_br = ((V_v+((rho*S*C_D_0)/(2*W)*V_mp**3)+(((2*k*W)/(rho*S))*V_mp**-1))*W)/eta
-print(f"Engine shaft power required = {P_br} hp")
+print(f"Engine shaft power required = {P_br} W")
+print(f"Engine shaft power required = {P_br/745.7} hp")
