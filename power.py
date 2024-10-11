@@ -38,6 +38,6 @@ V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*C_D_0))) # ft/s
 print(f"V_mp = {V_mp} ft/s")
 print(f"V_mp = {V_mp*0.592484} knots")
 
-P_br = ((V_v+((rho*S*C_D_0)/(2*W)*V_mp**3)+(((2*k*W)/(rho*S))*V_mp**-1))*W)/eta
+P_br = ((V_v+((rho*S*C_D_0)/(2*W)*V_mp**3)+(((2*k*W)/(rho*S))*V_mp**-1))*W)/eta # Watts
 print(f"Engine shaft power required = {P_br} W")
 print(f"Engine shaft power required = {P_br/745.7} hp")
