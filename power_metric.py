@@ -36,8 +36,9 @@ V_v = 4.572 # climb rate in m/s (minimum)
 eta = 0.8 # propeller efficiency
 V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*C_D_0))) # m/s
 V_max = 120/1.944 # m/s (TAS)
+print(f"{V_mp}")
 
-P_br = ((V_v+((rho*S*C_D_0)/(2*W)*V_mp**3)+(((2*k*W)/(rho*S))*V_mp**-1))*W)/eta # Watts
+P_br = ((V_v+((rho*S*C_D_0)/(2*W)*V_max**3)+(((2*k*W)/(rho*S))*V_max**-1))*W)/eta # Watts
 bhp = P_br/745.7
 print(f"Engine shaft power required = {P_br} W")
 print(f"Engine shaft power required = {P_br/745.7} hp")
