@@ -35,6 +35,7 @@ V_v = 900/60 # climb rate in ft/s (minimum)
 eta = 0.85 # propeller efficiency
 
 V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*C_D_0))) # ft/s
+V_max = 120*1.688 # ft/s (TAS)
 print(f"V_mp = {V_mp} ft/s")
 print(f"V_mp = {V_mp*0.592484} knots")
 
