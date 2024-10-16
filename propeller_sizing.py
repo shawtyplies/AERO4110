@@ -19,6 +19,9 @@ Blade # trade study
 - Less vibration
 - Better prop clearance 
 
+Propeller selection: McCauley P4247151-02
+https://mccauley.txtav.com/en/products?PropType=constant&OEM=MOONEY+AIRPLANE+COMPANY%2c+Inc.&AircraftModel=M20A+Mark+20A&EngineType=O-360-A1A+(LY)
+
 """
 
 # 3 blade prop statistical sizing analysis (imperial)
