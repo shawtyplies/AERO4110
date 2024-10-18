@@ -20,7 +20,7 @@ Loiter: 10 min
 """
 
 # Aircraft parameters
-MTOW = 1840 # lb
+MTOW = 1894 # lb
 W = MTOW*4.44822 # N
 # rho = 1.225/515.4 # slug/ft^3 (sea level)
 rho = 1.225/16.018 # lb/ft^3 (sea level)
@@ -32,7 +32,7 @@ k = 1/(np.pi*AR*e) # drag coefficient
 print(f"k = {k}")
 C_D_0 = 0.025 # drag coefficient at zero lift (Torenbeek - light aircraft approximation)
 V_v = 900/60 # climb rate in ft/s (minimum)
-eta = 0.85 # propeller efficiency
+eta = 0.82 # propeller efficiency
 
 V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*C_D_0))) # ft/s
 V_max = 120*1.688 # ft/s (TAS)

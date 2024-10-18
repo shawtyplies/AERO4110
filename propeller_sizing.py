@@ -19,8 +19,7 @@ Blade # trade study
 - Less vibration
 - Better prop clearance 
 
-Propeller selection: McCauley P4247151-02
-https://mccauley.txtav.com/en/products?PropType=constant&OEM=MOONEY+AIRPLANE+COMPANY%2c+Inc.&AircraftModel=M20A+Mark+20A&EngineType=O-360-A1A+(LY)
+Propeller selection: Clark Y, 3 blade propeller
 
 """
 
@@ -31,7 +30,7 @@ D = K_p*pow(bhp,1/4) # ft
 print(f"Required prop diameter = {D} ft")
 print(f"Required prop diameter = {D*12} in")
 # print(f"Required prop diameter: {D_met} m")
-D_new = 70/12 # ft
+D_new = 68.1/12 # ft
 
 # Speed calcs 
 # For metal propeller, helical tip speed should not exceed 950 fps {290 m/s} at sea level.
@@ -44,3 +43,5 @@ print(f"V_tip_helical = {V_tip_hel} ft/s")
 # Cooling area
 A_cool = bhp/(2.2*V_v) # ft^2
 print(f"Required cooling area = {A_cool} ft^2")
+
+# Clark Y 3 blade propeller properties
