@@ -15,10 +15,9 @@ Range: 780 nmi (minimum) (maximum payload)
 Fuel reserves: 30 min
 Must clear a 50 ft obstacle after take-off
 
-Mission 1 parameters
+Mission 2 parameters
 --------------------
-Range: 765 nmi
-Loiter: 10 min
+
 """
 
 # Aircraft parameters
@@ -48,12 +47,22 @@ C_D = C_D_0 + k*(C_L)**2
 print(f"Coefficient of drag at cruise = {C_D}")
 # D = 0.5*rho_2*(V_c**2)*S*C_D
 D = (0.5*rho_2*S*C_D_0)*(V_c**2) + ((2*k*(W**2))/(rho_2*S))*(V_c**-2) # drag at cruise
-print(f"Drag at cruise = {D}")
+print(f"Drag at cruise = {D} N")
 P_req = (W/((C_L**(3/2))/C_D))*np.sqrt((2*W)/(rho_2*S))
 print(f"Required power = {P_req} W") 
 print(f"Required power = {P_req/745.7} hp")
+T = (P_br*eta)/V_max
+print(f"Thrust = {T} N")
+
+# Loiter
+R = 1561787 # Range (m) - from Isaac's calcs
+E = 1.14*(R/V_c) # Loiter time (sec)
+print(f"Equivalent loiter time = {E} sec")
+print(f"Equivalent loiter time = {E/60} min")
 
 # Climbing flight
 gamma = np.arcsin(((eta*P_br)/W)*(V_mp**-1) - ((rho*S*C_D_0)/(2*W))*(V_mp**2) - ((2*k*W)/(rho*S))*(V_mp**-2)) # climb angle
 # gamma = np.arcsin(V_v/V_mp)
 print(f"climb angle = {gamma*(180/np.pi)} degrees")
+
+# Takeoff analysis

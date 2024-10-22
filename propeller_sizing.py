@@ -50,6 +50,7 @@ J = V_max/(n*D_met)
 print(f"Advance ratio: {J}")
 # J_new = (120/1.944)/(n*1.8)
 # print(f"Advance ratio: {J_new}")
+print(f"v max = {V_max} m/s")
 c_s = (V_max**5)*np.sqrt(rho_2/(117.442*(n**2)))
 print(f"Speed-power coefficient = {c_s}")
 

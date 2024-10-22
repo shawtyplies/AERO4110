@@ -8,15 +8,14 @@ Required mission performance parameters
 Service ceiling height: 10,000 ft (minimum)
 Cruise height: 6,000 ft
 Runway requirements: 2,000 ft (minimum)
-Cruise speed: 100 kts (miniumum) (@ 6,000 ft)
+Cruise speed: 100 kts (miniumum) (@ 7,000 ft)
 Climb rate: 900 fpm (minimum) (@ sea level)
 Range: 780 nmi (minimum) (maximum payload)
 Fuel reserves: 30 min
 
-Mission 1 parameters
+Mission 2 parameters
 --------------------
-Range: 765 nmi
-Loiter: 10 min
+
 """
 
 # Aircraft parameters
@@ -43,6 +42,11 @@ P_br = ((V_v+((rho*S*C_D_0)/(2*W)*V_max**3)+(((2*k*W)/(rho*S))*V_max**-1))*W)/et
 bhp = P_br/745.7
 print(f"Engine shaft power required = {P_br} W")
 print(f"Engine shaft power required = {P_br/745.7} hp")
+
+P_br_c = ((V_v+((rho*S*C_D_0)/(2*W)*V_c**3)+(((2*k*W)/(rho*S))*V_c**-1))*W)/eta # Watts
+bhp_c = P_br_c/745.7
+print(f"Engine shaft power required at cruise = {P_br_c} W")
+print(f"Engine shaft power required at cruise = {P_br_c/745.7} hp")
 
 c_L = np.sqrt(3*C_D_0*np.pi*AR*e)
 print(f"c_L at max ROC = {c_L}")
