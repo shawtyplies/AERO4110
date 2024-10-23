@@ -1,8 +1,8 @@
 import numpy as np
 from power_metric import P_br
+from power_metric import bhp
 from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
-from scipy.optimize import fmin
 
 
 """
@@ -11,7 +11,7 @@ Overall performance calcs
 Required mission performance parameters
 ---------------------------------------
 Service ceiling height: 10,000 ft (minimum)
-Cruise height: 6,000 ft
+Cruise height: 7,000 ft
 Runway requirements: 2,000 ft (minimum)
 Cruise speed: 100 kts (miniumum) (@ 6,000 ft)
 Climb rate: 900 fpm (minimum) (@ sea level)
@@ -71,51 +71,41 @@ gamma = np.arcsin(((eta*P_br)/W)*(V_mp**-1) - ((rho*S*C_D_0)/(2*W))*(V_mp**2) - 
 print(f"climb angle = {gamma*(180/np.pi)} degrees")
 
 # V_max
-# This is a cooked quartic equation that is not easy to solve
-A = (rho_2*S*C_D_0)/W # Coefficient for V_max_act^4
-B = (eta*P_max-V_v*W) # Coefficient for V_max_act
-C = (2*k*(W**2))/(rho_2*S) # Constant term
-def quartic_eqn(V_max_act):
-    return A * V_max_act**4 - B * V_max_act + C
-V_max_guess = 59.161 # Initial guess for V_max (in m/s)
-V_max_solution = fsolve(quartic_eqn, V_max_guess)[0]
-print(f"Actual maximum airspeed = {V_max_solution:.2f} m/s")
+max_pow = 180*0.84 # hp
+max_pow_met = 134226*0.84 # watts
+# Define the equation for Power as a function of velocity (V)
+def power_eq(V):
+    term1 = 0.5 * rho_2 * V**3 * S * C_D_0
+    term2 = (k * W**2) / (0.5 * rho_2 * V * S)
+    return term1 + term2
 
-
-# Define the climb rate equation
-def climb_rate(v):
-    term1 = (eta* P_br) / W  # First term
-    term2 = (rho * S * C_D_0) / (2 * W) * v**3  # Second term (drag)
-    term3 = (2 * k * W) / (rho * S * v)  # Third term (induced drag)
+# Define the function for solving V when P = 134226 watts
+def solve_for_V(P):
+    # Function to find the root where P_eq(V) = max_pow_met
+    def equation(V):
+        return power_eq(V) - P
     
-    return term1 - term2 - term3
+    # Use fsolve to solve for V
+    V_initial_guess = 50  # Initial guess for velocity (m/s)
+    V_solution = fsolve(equation, V_initial_guess)
+    return V_solution[0]
 
-# Airspeed range for plotting (in m/s, convert to knots later)
-v = np.linspace(10, 70, 500)  # Speed range in m/s
+# Generate velocities for plotting
+# V_values = np.linspace(10, 200, 500)  # Velocity range from 10 to 200 m/s
+# P_values = [power_eq(V) for V in V_values]
 
-# Compute climb rate for each airspeed
-V_v_1 = climb_rate(v)
+# Plot the Power vs Velocity curve
+# plt.plot(V_values, P_values, label="Power vs Velocity")
 
-# Plot the climb rate vs airspeed
-plt.figure(figsize=(8, 6))
-plt.plot(v * 1.94384, V_v_1 * 196.85, label="Climb rate")  # Convert m/s to knots and m/s to ft/min
-plt.xlabel('Airspeed (knots)')
-plt.ylabel('Climb rate (ft/min)')
-plt.title('Climb Rate vs Airspeed')
-plt.grid(True)
-plt.legend()
-plt.show()
+# Labels and title
+# plt.xlabel("Velocity (m/s)")
+# plt.ylabel("Power (W)")
+# plt.title("Power vs Velocity")
+# plt.legend()
+# plt.grid(True)
+# plt.show()
 
-# Finding the airspeed that gives maximum climb rate (V_v)
-def negative_climb_rate(v):
-    return -climb_rate(v)
-
-# Use fmin to find the airspeed that maximizes the climb rate
-max_airspeed_m_s = fmin(negative_climb_rate, 30)  # Initial guess of 30 m/s
-max_climb_rate = climb_rate(max_airspeed_m_s)
-
-# Convert to knots
-max_airspeed_knots = max_airspeed_m_s * 1.94384
-
-print(f"Maximum airspeed for climb rate = {max_airspeed_m_s[0]:.2f} m/s ({max_airspeed_knots[0]:.2f} knots)")
+# Find V when P = 134226 watts
+V_when_P = solve_for_V(max_pow_met)
+print(f"Velocity when P_max = {V_when_P:.2f} m/s = {V_when_P*1.944:.2f} knots")
 
