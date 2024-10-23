@@ -19,13 +19,13 @@ Mission 2 parameters
 """
 
 # Aircraft parameters
-MTOW = 859.1 # kg
+MTOW = 932.1 # kg
 W = MTOW*9.81 # N
 # rho = 1.225/515.4 # slug/ft^3 (sea level)
 rho = 1.225 # kg/m^3 (sea level)
-rho_2 = 0.6601 # kg/m^3 (6,000 ft)
-S = 13.94 # m^2
-AR = 6
+rho_2 = 1.026 # kg/m^3 (6,000 ft)
+S = 14.4 # m^2
+AR = 6.5
 delta = 0.058 # induced drag factor - check origin
 e = 1/(1+delta) # efficiency factor of wing
 k = 1/(np.pi*AR*e) # drag coefficient
@@ -34,7 +34,7 @@ C_D_0 = 0.025 # drag coefficient at zero lift (Torenbeek - light aircraft approx
 V_v = 4.572 # climb rate in m/s (minimum)
 eta = 0.84 # propeller efficiency
 V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*C_D_0))) # m/s
-V_max = 120/1.944 # m/s (TAS)
+V_max = 115/1.944 # m/s (TAS)
 V_c =100/1.944
 print(f"{V_mp}")
 
@@ -51,6 +51,6 @@ print(f"Engine shaft power required at cruise = {P_br_c/745.7} hp")
 c_L = np.sqrt(3*C_D_0*np.pi*AR*e)
 print(f"c_L at max ROC = {c_L}")
 
-P_req = ((0.5*rho_2*S*C_D_0)*V_c**3)+(((2*k*W**2)/(rho_2*S))*V_c**-1)
-print(f"Required power = {P_req} W")
-print(f"Required power = {P_req/745.7} hp")
+# P_req = ((0.5*rho_2*S*C_D_0)*V_c**3)+(((2*k*W**2)/(rho_2*S))*V_c**-1)
+# print(f"Required power = {P_req} W")
+# print(f"Required power = {P_req/745.7} hp")

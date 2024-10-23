@@ -1,5 +1,9 @@
 import numpy as np
 from power_metric import P_br
+from scipy.optimize import fsolve
+import matplotlib.pyplot as plt
+from scipy.optimize import fmin
+
 
 """
 Overall performance calcs
@@ -21,12 +25,12 @@ Mission 2 parameters
 """
 
 # Aircraft parameters
-MTOW = 859.1 # kg
+MTOW = 932.1 # kg
 W = MTOW*9.81 # N
 rho = 1.225 # kg/m^3 (sea level)
 rho_2 = 1.026 # kg/m^3 (7,000 ft)
-S = 13.94 # m^2
-AR = 6
+S = 14.4 # m^2
+AR = 6.5
 delta = 0.058 # induced drag factor - check origin
 e = 1/(1+delta) # efficiency factor of wing
 k = 1/(np.pi*AR*e) # drag coefficient
@@ -35,10 +39,11 @@ C_D_0 = 0.025 # drag coefficient at zero lift (Torenbeek - light aircraft approx
 V_v = 4.572 # climb rate in m/s (minimum)
 eta = 0.84 # propeller efficiency
 V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*C_D_0))) # m/s
-V_max = 120/1.944 # m/s (TAS)
+V_max = 115/1.944 # m/s (TAS)
 # V_c = 100/1.944 # cruise speed (m/s)
 V_c = np.sqrt(((2*W)/(rho_2*S)*np.sqrt((3*k)/C_D_0)))
 print(f"cruise speed = {V_c*1.944}")
+P_max = 180*745.7 # W
 
 # Straight and level flight
 C_L = (2*W)/(rho_2*(V_c**2)*S)
@@ -65,4 +70,52 @@ gamma = np.arcsin(((eta*P_br)/W)*(V_mp**-1) - ((rho*S*C_D_0)/(2*W))*(V_mp**2) - 
 # gamma = np.arcsin(V_v/V_mp)
 print(f"climb angle = {gamma*(180/np.pi)} degrees")
 
-# Takeoff analysis
+# V_max
+# This is a cooked quartic equation that is not easy to solve
+A = (rho_2*S*C_D_0)/W # Coefficient for V_max_act^4
+B = (eta*P_max-V_v*W) # Coefficient for V_max_act
+C = (2*k*(W**2))/(rho_2*S) # Constant term
+def quartic_eqn(V_max_act):
+    return A * V_max_act**4 - B * V_max_act + C
+V_max_guess = 59.161 # Initial guess for V_max (in m/s)
+V_max_solution = fsolve(quartic_eqn, V_max_guess)[0]
+print(f"Actual maximum airspeed = {V_max_solution:.2f} m/s")
+
+
+# Define the climb rate equation
+def climb_rate(v):
+    term1 = (eta* P_br) / W  # First term
+    term2 = (rho * S * C_D_0) / (2 * W) * v**3  # Second term (drag)
+    term3 = (2 * k * W) / (rho * S * v)  # Third term (induced drag)
+    
+    return term1 - term2 - term3
+
+# Airspeed range for plotting (in m/s, convert to knots later)
+v = np.linspace(10, 70, 500)  # Speed range in m/s
+
+# Compute climb rate for each airspeed
+V_v_1 = climb_rate(v)
+
+# Plot the climb rate vs airspeed
+plt.figure(figsize=(8, 6))
+plt.plot(v * 1.94384, V_v_1 * 196.85, label="Climb rate")  # Convert m/s to knots and m/s to ft/min
+plt.xlabel('Airspeed (knots)')
+plt.ylabel('Climb rate (ft/min)')
+plt.title('Climb Rate vs Airspeed')
+plt.grid(True)
+plt.legend()
+plt.show()
+
+# Finding the airspeed that gives maximum climb rate (V_v)
+def negative_climb_rate(v):
+    return -climb_rate(v)
+
+# Use fmin to find the airspeed that maximizes the climb rate
+max_airspeed_m_s = fmin(negative_climb_rate, 30)  # Initial guess of 30 m/s
+max_climb_rate = climb_rate(max_airspeed_m_s)
+
+# Convert to knots
+max_airspeed_knots = max_airspeed_m_s * 1.94384
+
+print(f"Maximum airspeed for climb rate = {max_airspeed_m_s[0]:.2f} m/s ({max_airspeed_knots[0]:.2f} knots)")
+

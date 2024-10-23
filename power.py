@@ -20,12 +20,12 @@ Loiter: 10 min
 """
 
 # Aircraft parameters
-MTOW = 1894 # lb
+MTOW = 2055 # lb
 W = MTOW*4.44822 # N
 # rho = 1.225/515.4 # slug/ft^3 (sea level)
 rho = 1.225/16.018 # lb/ft^3 (sea level)
-S = 150 # ft^2
-AR = 6
+S = 155 # ft^2
+AR = 6.5
 delta = 0.058 # induced drag factor - check origin
 e = 1/(1+delta) # efficiency factor of wing
 k = 1/(np.pi*AR*e) # drag coefficient

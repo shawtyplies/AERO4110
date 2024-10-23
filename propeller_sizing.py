@@ -27,7 +27,7 @@ Propeller selection: Clark Y, 3 blade propeller
 # 3 blade prop statistical sizing analysis (imperial)
 K_p = 1.6
 D = K_p*pow(bhp,1/4) # ft
-D_met = 0.52*pow(117.442,1/4) # m
+D_met = 0.52*pow(113.995,1/4) # m
 print(f"Required prop diameter = {D} ft")
 print(f"Required prop diameter = {D*12} in")
 print(f"Required prop diameter: {D_met} m")
@@ -51,8 +51,8 @@ print(f"Advance ratio: {J}")
 # J_new = (120/1.944)/(n*1.8)
 # print(f"Advance ratio: {J_new}")
 print(f"v max = {V_max} m/s")
-c_s = (V_max**5)*np.sqrt(rho_2/(117.442*(n**2)))
-print(f"Speed-power coefficient = {c_s}")
+# c_s = (V_max**5)*np.sqrt(rho_2/(117.442*(n**2)))
+# print(f"Speed-power coefficient = {c_s}")
 
 # From design chart for propeller 5868-9, Clark Y section, 3 blades
 # For J = 0.8 (from above) and alpha = 20 degrees
