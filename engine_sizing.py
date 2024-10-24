@@ -1,6 +1,5 @@
 import numpy as np
-from power_metric import bhp
-from power_metric import P_br
+from power_metric import P_req
 
 """
 Calculation of engine sizing specs for opposed piston engine
@@ -16,6 +15,7 @@ account for cruise calculations especially.
 
 """
 # Imperial:
+bhp = P_req/745.7
 W = 5.47*(bhp**0.780) # Weight (lb)
 L = 0.32*(bhp**0.424) # Length (ft)
 # Diameter:
@@ -24,8 +24,8 @@ L = 0.32*(bhp**0.424) # Length (ft)
 # Applicable bhp range = 60 - 500
 
 # Metric (with power in kW):
-W_met = 3.12*((P_br/1000)**0.780) # Weight (kg)
-L_met = 0.11*((P_br/1000)**0.424) # Length (m)
+W_met = 3.12*((P_req)**0.780) # Weight (kg)
+L_met = 0.11*((P_req)**0.424) # Length (m)
 # Diameter:
 #   Width = 0.8 - 0.9 m, Height = 0.6 - 0.7 m
 # Typical propeller rpm = 2770
