@@ -5,27 +5,27 @@ import matplotlib.pyplot as plt
 v_stall = 60  # Stall speed (knots)
 v_cruise = 104.21  # Cruise speed (knots)
 v_dive = 152.6  # Maximum dive speed (knots)
-n_max = 3.8  # Maximum positive load factor
-n_min = -1.5  # Maximum negative load factor
+n_max = 3.1  # Maximum positive load factor
+n_min = -1.3  # Maximum negative load factor
 
 # Create velocity array for plotting (from 0 to V_dive)
 v = np.linspace(0, v_dive, 500)
 
 # Symmetric load factor calculation (mirrored positive and negative load factors)
-n_factor = np.clip((v / v_stall)**2, 0, n_max)  # Use the same equation for both positive and negative sides
+n_factor = np.clip((v / v_stall)**4, 0, n_max)  # Use the same equation for both positive and negative sides
 
 # Maneuvering envelope: constant load from V_cruise to V_dive
-n_maneuver_pos = np.piecewise(v, [v < v_cruise, v >= v_cruise], [lambda v: np.clip((v / v_stall)**3, 0, n_max), n_max])
+n_maneuver_pos = np.piecewise(v, [v < v_cruise, v >= v_cruise], [lambda v: np.clip((v / v_stall)**4, 0, n_max), n_max])
 n_maneuver_neg = -n_maneuver_pos  # Mirror the positive load factor for the negative side
 
 # Plotting the VN diagram
 plt.figure(figsize=(10, 6))
 
 # Positive side of the envelope (clipped)
-plt.plot(v, n_maneuver_pos, label="Positive Load Factor", color='blue')
+plt.plot(v, n_maneuver_pos, color='blue')
 
 # Negative side of the envelope (mirrored)
-plt.plot(v, n_maneuver_neg, label="Negative Load Factor", color='blue', linestyle='--')
+plt.plot(v, n_maneuver_neg, color='blue')
 
 # Stall speed at 1g (vertical line)
 plt.axvline(x=v_stall, color='black', linestyle=':', label="V_stall 1g")
@@ -50,7 +50,7 @@ plt.xlim(0, v_dive + 10)
 plt.ylim(n_min - 0.5, n_max + 0.5)
 plt.xlabel("Velocity (kts)")
 plt.ylabel("Load Factor (n)")
-plt.title("VN Diagram (Symmetric Maneuver Envelope)")
+plt.title("V-n Diagram (Maneuver Envelope)")
 
 # Legend
 plt.legend()
