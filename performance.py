@@ -25,7 +25,7 @@ Mission 2 parameters
 """
 
 # Aircraft parameters
-MTOW = 932.1 # kg
+MTOW = 882.24 # kg
 W = MTOW*9.81 # N
 rho = 1.225 # kg/m^3 (sea level)
 rho_2 = 1.006 # kg/m^3 (7,000 ft)
@@ -34,33 +34,37 @@ AR = 6.5
 delta = 0.058 # induced drag factor - check origin
 e = 1/(1+delta) # efficiency factor of wing
 k = 1/(np.pi*AR*e) # drag coefficient
-# print(f"k = {k}")
+print(f"k = {k}")
 C_D_0 = 0.03 # drag coefficient at zero lift (Torenbeek - light aircraft approximation)
 V_v = 4.572 # climb rate in m/s (minimum)
 eta = 0.84 # propeller efficiency
 V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*C_D_0))) # m/s
-V_max = 160/1.944 # m/s (TAS)
+V_max = 140/1.944 # m/s (TAS)
 # V_c = 100/1.944 # cruise speed (m/s)
-V_c = np.sqrt(((2*W)/(rho_2*S)*np.sqrt((3*k)/C_D_0)))
+V_c = np.sqrt(((2*W)/(rho_2*S))*np.sqrt(((3*k)/C_D_0)))
 print(f"cruise speed = {V_c*1.944} knots")
 P_max = 180*745.7 # W
 
 # Straight and level flight
 C_L = (2*W)/(rho_2*(V_c**2)*S)
 print(f"Coefficient of lift at cruise = {C_L}")
+C_D = C_D_0 + k*(C_L)**2
+# C_D_new = (2*D) / (rho_2*V_c**2*S)
+print(f"Coefficient of drag at cruise = {C_D}")
 # D = 0.5*rho_2*(V_c**2)*S*C_D
 D = (0.5*rho_2*S*C_D_0)*(V_c**2) + ((2*k*(W**2))/(rho_2*S))*(V_c**-2) # drag at cruise
 print(f"Drag at cruise = {D} N")
-C_D = C_D_0 + k*(C_L)**2
-C_D_new = (2*D) / (rho_2*V_c**2*S)
-print(f"Coefficient of drag at cruise = {C_D_new}")
+D = (0.5*rho_2*S*C_D_0)*(V_max**2) + ((2*k*(W**2))/(rho_2*S))*(V_max**-2) # drag at cruise
+print(f"Drag at V_max = {D} N")
 P_req = (W/((C_L**(3/2))/C_D))*np.sqrt((2*W)/(rho_2*S))
 # print(f"Required power = {P_req} W") 
 # print(f"Required power = {P_req/745.7} hp")
 T = (P_br*eta)/V_max
 print(f"Thrust = {T} N")
-V_stall = np.sqrt(2*W/((C_D_0/k)*rho_2*S))
+C_L_max = 1.85
+V_stall = np.sqrt(2*W/((rho*S*C_L_max)))
 print(f"Stall speed = {V_stall*1.944} knots")
+
 
 # Loiter
 R = 1561787 # Range (m) - from Isaac's calcs
@@ -72,6 +76,12 @@ print(f"Equivalent loiter time = {E/60} min")
 gamma = np.arcsin(((eta*P_br)/W)*(V_mp**-1) - ((rho*S*C_D_0)/(2*W))*(V_mp**2) - ((2*k*W)/(rho*S))*(V_mp**-2)) # climb angle
 # gamma = np.arcsin(V_v/V_mp)
 print(f"climb angle = {gamma*(180/np.pi)} degrees")
+C_L = (2*W)/(rho*(V_mp**2)*S)
+print(f"Coefficient of lift at climb = {C_L}")
+T_climb = (0.5*rho*S*C_D_0)*V_mp**2 + ((2*k*W**2)/(rho*S))*V_mp**(-2) + W*np.sin(gamma)
+print(f"Thrust at climb = {T_climb} N")
+D_climb = (0.5*rho*S*C_D_0)*V_mp**2 + ((2*k*W**2)/(rho*S))*V_mp**(-2)
+print(f"Drag at climb = {D_climb} N")
 
 # V_max
 max_pow = 180*0.84 # hp
@@ -111,3 +121,8 @@ def solve_for_V(P):
 # Find V when P = 134226 watts
 V_when_P = solve_for_V(max_pow_met)
 print(f"Velocity when P_max = {V_when_P:.2f} m/s = {V_when_P*1.944:.2f} knots")
+
+# V_max_act = ((2*134226*0.84)/rho*S*C_D_0)**(1/3) calculate this by hand - pyhton don't like it
+# currently v_max = 146.2743 knots
+# print(f"V_max new = {V_max_act*1.944} knots")
+

@@ -1,7 +1,7 @@
 import numpy as np
 from power_metric import P_req
 from power_metric import V_v
-from power_metric import rho_2
+from power_metric import rho
 
 """
 Calculation of propeller size required for initial configuration.
@@ -52,7 +52,7 @@ V_tip_hel = np.sqrt(V_tip_stat**2+(V_max)**2)
 print(f"V_tip_helical = {V_tip_hel} ft/s")
 
 # Cooling area
-A_cool = 104.018/(2.2*V_v) # ft^2
+A_cool = 180/(2.2*(900/60)) # ft^2
 print(f"Required cooling area = {A_cool} ft^2")
 
 # 5868-9 Clark Y 3 blade propeller properties
@@ -61,13 +61,13 @@ print(f"Advance ratio: {J}")
 # J_new = (120/1.944)/(n*1.8)
 # print(f"Advance ratio: {J_new}")
 print(f"v max = {V_max} m/s")
-# c_s = (V_max**5)*np.sqrt(rho_2/(117.442*(n**2)))
-# print(f"Speed-power coefficient = {c_s}")
+c_s = (V_max**5)*np.sqrt(rho/(134.226*(n**2)))
+print(f"Speed-power coefficient = {c_s}")
 
 # From design chart for propeller 5868-9, Clark Y section, 3 blades
-# For J = 0.9 (from above) and alpha = 20 degrees?
-# c_T = 0.53, c_s = 1.5, eta = 0.84
+# For J = 0.9 (from above) and alpha = 25 degrees
+# c_T = ?, c_s = 1.45, eta = 0.84
 c_T = 0.53 # from figure 9
 # T = (c_T*rho*n**2*D_met**4)
-T = (117.442*0.84)/V_max
+T = (134.226*0.84)/V_max
 print(f"Prop thrust = {T} kN")

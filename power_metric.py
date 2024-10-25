@@ -19,17 +19,17 @@ Mission 2 parameters
 """
 
 # Aircraft parameters
-MTOW = 932.1 # kg
+MTOW = 882.24 # kg
 W = MTOW*9.81 # N
 # rho = 1.225/515.4 # slug/ft^3 (sea level)
 rho = 1.225 # kg/m^3 (sea level)
-rho_2 = 1.026 # kg/m^3 (6,000 ft)
+rho_2 = 1.006 # kg/m^3 (6,000 ft)
 S = 14.4 # m^2
 AR = 6.5
 delta = 0.058 # induced drag factor - check origin
 e = 1/(1+delta) # efficiency factor of wing
 k = 1/(np.pi*AR*e) # drag coefficient
-# print(f"k = {k}")
+print(f"e = {e}")
 C_D_0 = 0.03 # drag coefficient at zero lift (Torenbeek - light aircraft approximation)
 V_v = 4.572 # climb rate in m/s (minimum)
 eta = 0.84 # propeller efficiency
