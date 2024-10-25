@@ -61,9 +61,10 @@ P_req = (W/((C_L**(3/2))/C_D))*np.sqrt((2*W)/(rho_2*S))
 # print(f"Required power = {P_req/745.7} hp")
 T = (P_br*eta)/V_max
 print(f"Thrust = {T} N")
-C_L_max = 1.85
+C_L_max = 1.6
 V_stall = np.sqrt(2*W/((rho*S*C_L_max)))
-print(f"Stall speed = {V_stall*1.944} knots")
+print(f"Minimum speed = {V_stall*1.944} knots")
+print(f"Stall speed = {V_stall*1.944*0.94} knots")
 
 
 # Loiter
