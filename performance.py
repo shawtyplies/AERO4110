@@ -38,7 +38,7 @@ print(f"k = {k}")
 C_D_0 = 0.03 # drag coefficient at zero lift (Torenbeek - light aircraft approximation)
 V_v = 4.572 # climb rate in m/s (minimum)
 eta = 0.84 # propeller efficiency
-V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*C_D_0))) # m/s
+V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*(C_D_0+0.02)))) # m/s
 V_max = 140/1.944 # m/s (TAS)
 # V_c = 100/1.944 # cruise speed (m/s)
 V_c = np.sqrt(((2*W)/(rho_2*S))*np.sqrt(((3*k)/C_D_0)))
@@ -62,7 +62,7 @@ P_req = (W/((C_L**(3/2))/C_D))*np.sqrt((2*W)/(rho_2*S))
 T = (P_br*eta)/V_max
 print(f"Thrust = {T} N")
 C_L_max = 1.6
-V_stall = np.sqrt(2*W/((rho*S*C_L_max)))
+V_stall = np.sqrt(2*W/((rho*S*C_L_max))) # m/s
 print(f"Minimum speed = {V_stall*1.944} knots")
 print(f"Stall speed = {V_stall*1.944*0.94} knots")
 
@@ -74,14 +74,14 @@ print(f"Equivalent loiter time = {E} sec")
 print(f"Equivalent loiter time = {E/60} min")
 
 # Climbing flight
-gamma = np.arcsin(((eta*P_br)/W)*(V_mp**-1) - ((rho*S*C_D_0)/(2*W))*(V_mp**2) - ((2*k*W)/(rho*S))*(V_mp**-2)) # climb angle
+gamma = np.arcsin(((eta*P_br)/W)*(V_mp**-1) - ((rho*S*(C_D_0+0.02))/(2*W))*(V_mp**2) - ((2*k*W)/(rho*S))*(V_mp**-2)) # climb angle
 # gamma = np.arcsin(V_v/V_mp)
 print(f"climb angle = {gamma*(180/np.pi)} degrees")
 C_L = (2*W)/(rho*(V_mp**2)*S)
 print(f"Coefficient of lift at climb = {C_L}")
-T_climb = (0.5*rho*S*C_D_0)*V_mp**2 + ((2*k*W**2)/(rho*S))*V_mp**(-2) + W*np.sin(gamma)
+T_climb = (0.5*rho*S*(C_D_0+0.02))*V_mp**2 + ((2*k*W**2)/(rho*S))*V_mp**(-2) + W*np.sin(gamma)
 print(f"Thrust at climb = {T_climb} N")
-D_climb = (0.5*rho*S*C_D_0)*V_mp**2 + ((2*k*W**2)/(rho*S))*V_mp**(-2)
+D_climb = (0.5*rho*S*(C_D_0+0.02))*V_mp**2 + ((2*k*W**2)/(rho*S))*V_mp**(-2)
 print(f"Drag at climb = {D_climb} N")
 
 # V_max
