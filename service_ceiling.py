@@ -36,7 +36,7 @@ substituted_eq = equation.subs({
     P_br: 134226,      # W
     W: 882.24 * 9.81,   # N (weight in newtons)
     S: 14.4 / 4,        # m^2 (wing area)
-    V: 54.985,           # m/s (velocity)
+    V: 27.288,           # m/s (velocity)
     C_D0: 0.03,
     k : 0.05181
 })
