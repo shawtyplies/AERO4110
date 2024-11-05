@@ -25,11 +25,12 @@ Mission 2 parameters
 """
 
 # Aircraft parameters
-MTOW = 882.24 # kg
+MTOW = 868.63 # kg
+W_e = 500.766*9.81 # N
 W = MTOW*9.81 # N
 rho = 1.225 # kg/m^3 (sea level)
 rho_2 = 1.006 # kg/m^3 (7,000 ft)
-S = 14.4 # m^2
+S = 13.94 # m^2
 AR = 6.5
 delta = 0.058 # induced drag factor - check origin
 e = 1/(1+delta) # efficiency factor of wing
@@ -39,7 +40,11 @@ C_D_0 = 0.03 # drag coefficient at zero lift (Torenbeek - light aircraft approxi
 V_v = 4.572 # climb rate in m/s (minimum)
 eta = 0.84 # propeller efficiency
 V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*(C_D_0+0.02)))) # m/s
-V_max = 140/1.944 # m/s (TAS)
+# V_max = 140/1.944 # m/s (TAS)
+max_pow = 180*0.84 # hp
+max_pow_met = 134226*0.84 # watts
+V_max = ((2*max_pow_met) / (rho_2*S*C_D_0))**(1/3) # m/s
+print(f"v_max = {V_max} m/s = {V_max*1.944} knots")
 # V_c = 100/1.944 # cruise speed (m/s)
 V_c = np.sqrt(((2*W)/(rho_2*S))*np.sqrt(((3*k)/C_D_0)))
 print(f"cruise speed = {V_c*1.944} knots")
@@ -84,46 +89,20 @@ print(f"Thrust at climb = {T_climb} N")
 D_climb = (0.5*rho*S*(C_D_0+0.02))*V_mp**2 + ((2*k*W**2)/(rho*S))*V_mp**(-2)
 print(f"Drag at climb = {D_climb} N")
 
-# V_max
-max_pow = 180*0.84 # hp
-max_pow_met = 134226*0.84 # watts
-# Define the equation for Power as a function of velocity (V)
-def power_eq(V):
-    term1 = 0.5 * rho_2 * V**3 * S * C_D_0
-    term2 = (k * W**2) / (0.5 * rho_2 * V * S)
-    return term1 + term2
-
-# Define the function for solving V when P = 134226 watts
-def solve_for_V(P):
-    # Function to find the root where P_eq(V) = max_pow_met
-    def equation(V):
-        return power_eq(V) - P
-    
-    # Use fsolve to solve for V
-    V_initial_guess = 50  # Initial guess for velocity (m/s)
-    V_solution = fsolve(equation, V_initial_guess)
-    return V_solution[0]
-
-# Generate velocities for plotting
-# V_values = np.linspace(10, 200, 500)  # Velocity range from 10 to 200 m/s
-# P_values = [power_eq(V) for V in V_values]
-
-# Plot the Power vs Velocity curve
-# plt.plot(V_values, P_values, label="Power vs Velocity")
-
-# Labels and title
-# plt.xlabel("Velocity (m/s)")
-# plt.ylabel("Power (W)")
-# plt.title("Power vs Velocity")
-# plt.legend()
-# plt.grid(True)
-# plt.show()
-
-# Find V when P = 134226 watts
-V_when_P = solve_for_V(max_pow_met)
-print(f"Velocity when P_max = {V_when_P:.2f} m/s = {V_when_P*1.944:.2f} knots")
-
 # V_max_act = ((2*134226*0.84)/rho*S*C_D_0)**(1/3) calculate this by hand - pyhton don't like it
 # currently v_max = 146.2743 knots
 # print(f"V_max new = {V_max_act*1.944} knots")
 
+## Coefficient of lift calcs
+# Cruise
+c_l_c_mtow = (2*W)/(rho_2*(V_c**2)*S)
+c_l_c_w_e = (2*W_e)/(rho_2*(V_c**2)*S)
+print(f"c_L at cruise when w = mtow: {c_l_c_mtow}, when w = w_e: {c_l_c_w_e}")
+# Max airspeed @ steady level
+c_l_c_mtow = (2*W)/(rho_2*(V_max**2)*S)
+c_l_c_w_e = (2*W_e)/(rho_2*(V_max**2)*S)
+print(f"c_L at max airpseed when w = mtow: {c_l_c_mtow}, when w = w_e: {c_l_c_w_e}")
+# Stall
+c_l_c_mtow = (2*W)/(rho_2*(V_stall**2)*S)
+c_l_c_w_e = (2*W_e)/(rho_2*(V_stall**2)*S)
+print(f"c_L at stall when w = mtow: {c_l_c_mtow}, when w = w_e: {c_l_c_w_e}")
