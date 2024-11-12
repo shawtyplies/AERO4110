@@ -106,3 +106,7 @@ print(f"c_L at max airpseed when w = mtow: {c_l_c_mtow}, when w = w_e: {c_l_c_w_
 c_l_c_mtow = (2*W)/(rho_2*(V_stall**2)*S)
 c_l_c_w_e = (2*W_e)/(rho_2*(V_stall**2)*S)
 print(f"c_L at stall when w = mtow: {c_l_c_mtow}, when w = w_e: {c_l_c_w_e}")
+# Climbing flight
+C_l_cl_mtow = (2*W)/(rho*(V_mp**2)*S)
+C_l_cl_w_e = (2*W_e)/(rho*(V_mp**2)*S)
+print(f"c_L at climb when w = mtow: {C_l_cl_mtow}, when w = w_e: {C_l_cl_w_e}")
