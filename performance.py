@@ -66,11 +66,12 @@ P_req = (W/((C_L**(3/2))/C_D))*np.sqrt((2*W)/(rho_2*S))
 # print(f"Required power = {P_req/745.7} hp")
 T = (P_br*eta)/V_max
 print(f"Thrust = {T} N")
-C_L_max = 1.6
-V_stall = np.sqrt(2*W/((rho*S*C_L_max))) # m/s
-print(f"Minimum speed = {V_stall*1.944} knots")
-print(f"Stall speed = {V_stall*1.944*0.94} knots")
-
+C_L_max_nf = 2.2
+C_L_max_f = 2.4
+V_stall_nf = np.sqrt(2*W/((rho*S*C_L_max_nf))) # m/s
+V_stall_f = np.sqrt(2*W/((rho*S*C_L_max_f))) # m/s
+print(f"Stall speed (no flaps)= {V_stall_nf*1.944} knots")
+print(f"Stall speed (flaps)= {V_stall_f*1.944*0.94} knots")
 
 # Loiter
 R = 1561787 # Range (m) - from Isaac's calcs
@@ -103,8 +104,8 @@ c_l_c_mtow = (2*W)/(rho_2*(V_max**2)*S)
 c_l_c_w_e = (2*W_e)/(rho_2*(V_max**2)*S)
 print(f"c_L at max airpseed when w = mtow: {c_l_c_mtow}, when w = w_e: {c_l_c_w_e}")
 # Stall
-c_l_c_mtow = (2*W)/(rho_2*(V_stall**2)*S)
-c_l_c_w_e = (2*W_e)/(rho_2*(V_stall**2)*S)
+# c_l_c_mtow = (2*W)/(rho_2*(V_stall**2)*S)
+# c_l_c_w_e = (2*W_e)/(rho_2*(V_stall**2)*S)
 print(f"c_L at stall when w = mtow: {c_l_c_mtow}, when w = w_e: {c_l_c_w_e}")
 # Climbing flight
 C_l_cl_mtow = (2*W)/(rho*(V_mp**2)*S)
