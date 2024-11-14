@@ -22,11 +22,13 @@ abs_ceiling = 17726 # in ft
 V_s_values = np.sqrt(2 * W / (np.array(rho_values) * S * C_L_max)) * 1.94384  # in knots
 V_max_values = ((2 * P_av) / (np.array(rho_values) * S * C_D_0))**(1/3) * 1.94384  # in knots
 
+V_s_sl = np.sqrt(2 * W / (1.225 * S * C_L_max)) * 1.94384 
+print(f"{V_s_sl}")
+
 # Plot
 plt.figure(figsize=(10, 6))
 plt.plot(V_s_values, altitudes, label="Stall Speed", color='blue')
 plt.plot(V_max_values, altitudes, label="Max Speed", color='green')
-
 
 # Add service ceiling line
 plt.axhline(service_ceiling, color='orange', linestyle='--', label="Service Ceiling")
