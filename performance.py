@@ -25,7 +25,7 @@ Mission 2 parameters
 """
 
 # Aircraft parameters
-MTOW = 868.63 # kg
+MTOW = 878 # kg
 W_e = 500.766*9.81 # N
 W = MTOW*9.81 # N
 rho = 1.225 # kg/m^3 (sea level)
