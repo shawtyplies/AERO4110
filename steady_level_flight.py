@@ -8,6 +8,7 @@ import numpy as np
 # Aircraft parameters
 MTOW = 878 # kg
 W = MTOW*9.81 # N
+W_e = 513*9.81 # N
 rho = 1.225 # kg/m^3 (sea level)
 rho_2 = 1.006 # kg/m^3 (7,000 ft)
 S = 14.4 # m^2
@@ -49,3 +50,19 @@ print(f"Min power = {P/ 745.7} hp")
 P_req = (W/((C_L**(3/2))/C_D))*np.sqrt((2*W)/(rho_2*S))
 print(f"Required power = {P_req} W") 
 print(f"Required power = {P_req/745.7} hp")
+
+# Range
+# At performance cruise (75% rated): 11 gal/hr
+C_p = 0.5296 # lb/hr/hp
+V_c_i = 170.8 # ft/s
+W_i = 1935 # lb
+W_e_i = 1130 # lb
+W_f_i = W_i - W_e_i # lb
+L_c_i = W_i
+S_i = 155 # ft^2
+D_c_i = q*S_i*(C_D)
+R_p = (V_c_i/C_p)*(L_c_i/D_c_i)*np.log(W_i/W_f_i)
+print(f"{L_c/D_c}")
+print(f"Range at performance cruise = {R_p} ft")
+# At economy cruise (60% rated): 8.5 gal/hr
+C_e = 8.5 
