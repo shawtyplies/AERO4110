@@ -57,14 +57,20 @@ g = 9.81 # m/s^2
 n_0 = 1
 psi_0 = (g*np.sqrt((n_0**2)-1)) / V_c
 print(f"Turn rate at 0 degree bank = {psi_0*(180/np.pi)} deg/sec")
+L_0 = W*n_0 # N
+print(f"Lift at 0 degree bank bank angle turn = {L_0} N")
 # 30 degree bank angle 
 n_30 = 1.15
 psi_30 = (g*np.sqrt((n_30**2)-1)) / V_c
 print(f"Turn rate at 30 degree bank = {psi_30*(180/np.pi)} deg/sec")
+L_30 = W*n_30 # N
+print(f"Lift at 30 degree bank bank angle turn = {L_30} N")
 # 60 degree bank angle 
 n_60 = 2
 psi_60 = (g*np.sqrt((n_60**2)-1)) / V_c
 print(f"Turn rate at 60 degree bank = {psi_60*(180/np.pi)} deg/sec")
+L_60 = W*n_0 # N
+print(f"Lift at 60 degree bank bank angle turn = {L_60} N")
 
 # Range
 # At performance cruise (75% rated): 11 gal/hr
