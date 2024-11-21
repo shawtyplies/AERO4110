@@ -51,6 +51,21 @@ P_req = (W/((C_L**(3/2))/C_D))*np.sqrt((2*W)/(rho_2*S))
 print(f"Required power = {P_req} W") 
 print(f"Required power = {P_req/745.7} hp")
 
+## Turning flight
+g = 9.81 # m/s^2
+# 0 degree bank angle 
+n_0 = 1
+psi_0 = (g*np.sqrt((n_0**2)-1)) / V_c
+print(f"Turn rate at 0 degree bank = {psi_0*(180/np.pi)} deg/sec")
+# 30 degree bank angle 
+n_30 = 1.15
+psi_30 = (g*np.sqrt((n_30**2)-1)) / V_c
+print(f"Turn rate at 30 degree bank = {psi_30*(180/np.pi)} deg/sec")
+# 60 degree bank angle 
+n_60 = 2
+psi_60 = (g*np.sqrt((n_60**2)-1)) / V_c
+print(f"Turn rate at 60 degree bank = {psi_60*(180/np.pi)} deg/sec")
+
 # Range
 # At performance cruise (75% rated): 11 gal/hr
 C_p = 0.5296 # lb/hr/hp
