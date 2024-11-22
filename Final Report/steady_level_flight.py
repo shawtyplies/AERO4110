@@ -6,11 +6,13 @@ Steady level flight calcs for cruise and max airspeed
 import numpy as np
 
 # Aircraft parameters
-MTOW = 878 # kg
+MTOW = 953 # kg
 W = MTOW*9.81 # N
 W_e = 513*9.81 # N
 rho = 1.225 # kg/m^3 (sea level)
 rho_2 = 1.026 # kg/m^3 (6,000 ft)
+rho_3 = 0.9451 # kg/m^3 (7,000 ft)
+q_2 = 1297.6 # N/m^2
 S = 14.4 # m^2
 AR = 6.5
 delta = 0.058 # induced drag factor - check origin
@@ -25,12 +27,15 @@ C_L = (2*W)/(rho_2*(V_c**2)*S)
 print(f"Coefficient of lift at cruise = {C_L}")
 C_D = C_D_0 + k*(C_L)**2
 print(f"Coefficient of drag at cruise = {C_D}")
-q = 0.5*rho_2*V_c**2
+q = 0.5*rho_3*V_c**2
 D_c = q*S*(C_D) # Drag = thrust
 print(f"Drag = thrust (at cruise) = {D_c} N")
 L_c = W
 TWR_c = 1 / (L_c/D_c) # Thrust to weight ratio
 print(f"Thrust to weight ratio (at cruise) = {TWR_c}")
+LDR_c = L_c / D_c 
+# LDR_c = 1 / (((q*C_D_0)/(W*S))+((W/S)/(q*np.pi**AR*e)))
+print(f"Lift to Drag ratio (at cruise) = {LDR_c}")
 
 # Min thrust
 D_mint = q*S*(2*C_D_0)

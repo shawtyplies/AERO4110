@@ -5,7 +5,7 @@ Takeoff, climb and landing analysis
 import numpy as np
 
 # Aircraft parameters
-MTOW = 878 # kg
+MTOW = 953 # kg
 W = MTOW*9.81 # N
 W_e = 513*9.81 # N
 rho = 1.225 # kg/m^3 (sea level)
@@ -19,7 +19,7 @@ print(f"{k}")
 C_D_0 = 0.03 # drag coefficient at zero lift (Torenbeek - light aircraft approximation)
 P_s = 180 # hp
 eta = 0.84
-P_br = 160*745.7 # watts
+P_br = 180*745.7 # watts
 
 # Takeoff specific
 C_L_max_nf = 2.2 # max lift coefficient without flaps
@@ -39,12 +39,18 @@ g = 9.81 # m/s^2
 
 # Climb
 v_climb = 1.2*V_stall_f # m/s
-climb_rate = 1200 # fpm
+print(f"climb speed = {v_climb} m/s")
+V_mp = np.sqrt(((2*W)/(rho*S))*np.sqrt(k/(3*(C_D_0+0.02)))) # m/s
+print(f"min power speed = {V_mp} m/s")
 D_climb = (0.5*rho*S*(C_D_0+0.02))*v_climb**2 + ((2*k*W**2)/(rho*S))*v_climb**(-2)
-# gamma_best = np.arcsin((550*160*0.84)/(v_climb*(W/4.448) - (D_climb/W)))
-# print(f"Best rate of climb = {gamma_best*(180/np.pi)} degrees")
-gamma = np.arcsin((climb_rate/196.85)/(v_climb))
+climb_rate = ((550*140*eta)/2100) - (((D_climb/4.448)*(v_climb*3.281))/2100)
+# V_v = ((0.84*P_br)/W) - (((rho*S*C_D_0)/(2*W))*V_mp**3) - (((2*k*W)/(rho*S))*V_mp**-1)
+print(f"Climb rate = {climb_rate*60} fpm")
+D_climb = (0.5*rho*S*(C_D_0+0.02))*v_climb**2 + ((2*k*W**2)/(rho*S))*v_climb**(-2)
+print(f"Drag at climb = {D_climb} N")
+gamma = np.arcsin(((climb_rate*60)/196.85)/(v_climb))
 print(f"Min angle of climb = {gamma*(180/np.pi)} degrees")
+
 
 # Ground roll (take-off)
 mu = 0.08 # rolling resistance of wet grass
