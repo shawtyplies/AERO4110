@@ -1,11 +1,20 @@
 import numpy as np
 from sympy import symbols, Eq, solve
-from performance import W
-from performance import S
-from performance import k
-from performance import C_D_0
-from performance import AR
-from performance import e
+
+# Aircraft parameters
+MTOW = 903 # kg
+W = MTOW*9.81 # N
+W_e = 513*9.81 # N
+# rho = 1.225 # kg/m^3 (sea level)
+rho_2 = 1.026 # kg/m^3 (6,000 ft)
+rho_3 = 0.9451 # kg/m^3 (7,000 ft)
+q_2 = 1297.6 # N/m^2
+S = 14.4 # m^2
+AR = 6.5
+delta = 0.058 # induced drag factor - check origin
+e = 1/(1+delta) # efficiency factor of wing
+k = 1/(np.pi*AR*e) # 
+C_D_0 = 0.03
 
 
 # @ 10,000 ft and cruise conditions:
@@ -33,10 +42,10 @@ equation = Eq(V_v, ((eta*P_br)/W)-(((rho*S*C_D0))/(2*W))*V**3-((2*k*W)/(rho*S))*
 substituted_eq = equation.subs({
     V_v: 0.508,         # m/s (100 fpm)
     eta: 0.84,
-    P_br: 134226,      # W
-    W: 882.24 * 9.81,   # N (weight in newtons)
+    P_br: 180* 745.7,      # W
+    W: 907 * 9.81,   # N (weight in newtons)
     S: 14.4 /4,        # m^2 (wing area)
-    V: 27.288,           # m/s (velocity)
+    V: 25,           # m/s (velocity)
     C_D0: 0.03,
     k : 0.05181
 })
